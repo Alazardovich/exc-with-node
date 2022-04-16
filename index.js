@@ -13,20 +13,23 @@ program.parse(process.argv);
 const argv = program.opts();
 const contactsOperation = require("./db/contacts");
 
-// (async () => {
-//   await invokeAction(argv);
-// })();
+(async () => {
+  await invokeAction(argv);
+})();
 
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
       const contacts = await contactsOperation.listContacts();
-      console.log(contacts[0]);
+      console.table(contacts);
       break;
 
     case "get":
       const contact = await contactsOperation.getContactById(id);
-      if (!contact) throw new Error(`Product ${id} not found`);
+      if (!contact) {
+        throw new Error(`Contact ${id} not found`);
+      }
+      console.log(contact);
       break;
 
     case "add":
@@ -44,4 +47,4 @@ async function invokeAction({ action, id, name, email, phone }) {
   }
 }
 
-invokeAction(argv);
+// invokeAction(argv);

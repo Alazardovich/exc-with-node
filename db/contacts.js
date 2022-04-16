@@ -17,6 +17,9 @@ const listContacts = async () => {
 const getContactById = async (contactId) => {
   const data = await listContacts();
   const contact = data.find((contact) => contact.id === contactId);
+  if (!contact) {
+    return null;
+  }
   return contact;
 };
 
@@ -26,7 +29,7 @@ const removeContact = async (name, contactId) => {
   if (idx === -1) {
     return null;
   }
-  const [removeId] = data.splice(idx, 1);
+  const [removeId] = data.splice(idx, 1) ?? console.log(`Delete ${name}`);
   await updateProducts(data);
   return removeId;
 };
